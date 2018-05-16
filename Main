@@ -9,20 +9,39 @@ Purpose: To create a program that uses arrays/object arrays in a meaninful way
  */
 
 public class Main {
-	Student[] classRoom = new Student[100];
+	public static Student[] classRoom = new Student[100];
+	private static int count = 0;
 		
 	public static void main(String[] args) {
-		Window win = new Window("Sprague Word");
+		Window win = new Window("Classroom Grading Application");
 		win.setLocationSize(100, 100, 1200, 800);
 		win.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		win.setVisible(true);
 			
 	}
+	
+	public static void addStudent(String firstName, String lastName, char sex, int years, int schoolGrade, float percent) {
+		classRoom[count] = new Student(firstName, lastName, years, sex, schoolGrade, percent);
+	}
+	
+	public static void deleteStudent(int studentNumber) {
+		classRoom[studentNumber - 1] = new Student("", "", 0, ' ', 0, 0);
+		for(int i = (studentNumber - 1); i < count; i++) {
+			classRoom[i] = classRoom[i + 1]; 
+		}
+		classRoom[count] = new Student("", "", 0, ' ', 0, 0);
+		count--;
+	}
+	
+	public static int search(String search) {
+		int num = 101;
+		for(int i = 0; i < count; i++) {
+			if(classRoom[i].getFirst().contains(search)) {
+				num = i;
+			}
+		}
+		return num;
 		
-	public String newStudent() {
-		String str = "Please enter this students information ~ \n";
-		str += "Grade Level: ";
-		return "";
 	}
 		
 		
