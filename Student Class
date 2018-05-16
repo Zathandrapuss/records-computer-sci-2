@@ -1,8 +1,9 @@
+
 public class Student {
 	
   //variables
 	private String first, last;
-	private int age, grade, period;
+	private int age, grade;
 	private char gender;
 	private float score;
 	
@@ -12,25 +13,23 @@ public class Student {
 		last = " ";
 		age = 0;
 		grade = 0;
-		period = 0;
 		gender = ' ';
 		score = (float) 0.00;
 	}
 	
-	public Student(String name1, String name2, int years, char sex, int schoolLvl, int hour, float percent){
+	public Student(String name1, String name2, int years, char sex, int schoolLvl, float percent){
 		first = name1;
 		last = name2;
 		age = years;
 		gender = sex;
 		grade = schoolLvl;
-		period = hour;
 		score = percent;
 	}
 	
 	//methods
 	public String studentReport(){
 		String data;
-		data = first + "\t" + last + "\t" + age + "\t" + gender + "\t" + grade + "\t" + period + "\t" + score;		
+		data = first + "\t" + last + "\t" + age + "\t" + gender + "\t" + grade + "\t" + score;		
 		return data;
 	}
 	
