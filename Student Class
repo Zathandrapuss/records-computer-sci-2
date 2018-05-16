@@ -28,7 +28,7 @@ public class Student {
 	}
 	
 	//methods
-	public String address(){
+	public String studentReport(){
 		String data;
 		data = first + "\t" + last + "\t" + age + "\t" + gender + "\t" + grade + "\t" + period + "\t" + score;		
 		return data;
