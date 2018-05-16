@@ -1,0 +1,54 @@
+
+public class ArrayStudent {
+	
+	//variables
+		private Student[] students;
+		private int count;
+		
+		//constructors
+		public ArrayStudent(){
+			
+			students = new Student[100];
+			count = 0;
+		}
+		
+		//methods
+		
+		//add Students to our stack
+		public void addStudent (String name1, String name2, int age, char gen, int year, int period, float grade){
+			
+			if (count == students.length){
+				increaseSize();
+			}
+			
+			students[count] = new Student(name1, name2, age, gen, year, period, grade);
+			count++;
+		}
+		
+		//Create a report of info
+		public String reportAll(){
+			
+			String report = "*************************\n";
+			report += "Student List\n\n";
+			report += "Number of People: " + count + "\n";
+			report += "\t\tList: \n\n";
+			
+			for (int i = 0; i < students.length; i++){
+				report += students[i].studentReport() + "\n";
+			}
+			
+			return report;
+		}
+		
+		private void increaseSize(){
+			
+			Student[] temp = new Student[students.length * 2];
+			
+			for (int i = 0; i > students.length; i++){
+				temp[i] = students [i];
+			}
+			
+			students = temp;
+			
+		}
+}
