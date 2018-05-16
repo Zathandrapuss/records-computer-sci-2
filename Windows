@@ -58,23 +58,21 @@ private int x, y, width, height;
 	private JMenu help = new JMenu("Help");
 	private JMenuItem aboutHelpItem = new JMenuItem("About");
 	private JMenuItem helpHelpItem = new JMenuItem("Help");
-	private JMenuItem warningsHelpItem = new JMenuItem("Why isn't this translating?");
 	
 	
 	private JPanel mainContentPane = new JPanel();
 	private JPanel buttonPane = new JPanel();
 	private JPanel txtAreaPane = new JPanel();
 	
-	private JTextArea txtArea = new JTextArea(40, 50);
-	private JScrollPane scrollBar = new JScrollPane(txtArea);
-	private JTextArea txtAreaTrans = new JTextArea(40, 50);
-	private JScrollPane scrollBarTrans = new JScrollPane(txtAreaTrans);
+	private JTextArea outputArea = new JTextArea(40, 50);
+	private JScrollPane scrollBar = new JScrollPane(outputArea);
+	private JTextArea userInputArea = new JTextArea(1, 50);
 	
-	private JButton transButt = new JButton("Translate");
-	private JButton clearButt = new JButton("Clear");
-	private JButton quitButt = new JButton("Quit");
-	String[] choices = { "Spanish","Russian", "Japanese","Chinese","Czech","Dutch"};
-    final JComboBox<String> lang = new JComboBox<String>(choices);
+	private JButton viewButt = new JButton("View Class");
+	private JButton deleteButt = new JButton("Delete Student");
+	private JButton addButt = new JButton("Add Student");
+	private JButton searchButt = new JButton("Search");
+	private JButton sortButt = new JButton("Sort");
 
 	public Window(String title) {
 		super(title);
@@ -91,7 +89,7 @@ private int x, y, width, height;
 		this.setSize(width, height);
 	}
 	
-	public void save() throws Exception {
+	/*public void save() throws Exception {
 			//makes save dialouge
 			JFileChooser c = new JFileChooser();
 			int rVal = c.showSaveDialog(this);
@@ -110,9 +108,9 @@ private int x, y, width, height;
 				filename.setText("You pressed cancel");
 				dir.setText("");
 			}
-	}
+	}*/
 	
-	public void load() {
+	/*public void load() {
 		JFileChooser c = new JFileChooser();
 		int rVal = c.showOpenDialog(this);
 		if(rVal == JFileChooser.APPROVE_OPTION) {
@@ -146,7 +144,7 @@ private int x, y, width, height;
 			filename.setText("");
 			dir.setText("");
 		}
-	}
+	}*/
 	
 	public void init() {
 		Container cp = this.getContentPane();
@@ -158,10 +156,10 @@ private int x, y, width, height;
 		cp.add(mainContentPane);
 		
 		mainContentPane.setLayout(new BoxLayout(mainContentPane, BoxLayout.Y_AXIS));
-		txtAreaPane.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 10));
+		txtAreaPane.setLayout(new BoxLayout(txtAreaPane, BoxLayout.Y_AXIS));
 		buttonPane.setLayout(new FlowLayout(FlowLayout.LEFT));
 		
-		txtAreaTrans.setEditable(false);
+		outputArea.setEditable(false);
 		
 		newFileItem.addActionListener(this);
 		newFileItem.setActionCommand("New File");
@@ -183,37 +181,35 @@ private int x, y, width, height;
 		aboutHelpItem.setActionCommand("About");
 		helpHelpItem.addActionListener(this);
 		helpHelpItem.setActionCommand("Help");
-		warningsHelpItem.addActionListener(this);
-		warningsHelpItem.setActionCommand("Warnings");
 		
-		transButt.addActionListener(this);
-		transButt.setActionCommand("Translate");
-		clearButt.addActionListener(this);
-		clearButt.setActionCommand("Clear");
-		quitButt.addActionListener(this);
-		quitButt.setActionCommand("Quit");
+		viewButt.addActionListener(this);
+		viewButt.setActionCommand("view");
+		addButt.addActionListener(this);
+		addButt.setActionCommand("add");
+		deleteButt.addActionListener(this);
+		deleteButt.setActionCommand("delete");
+		searchButt.addActionListener(this);
+		searchButt.setActionCommand("search");
+		sortButt.addActionListener(this);
+		sortButt.setActionCommand("sort");
 		
 		addWindowListener(this);
         addWindowFocusListener(this);
         addWindowStateListener(this);
 		
-		txtArea.setLineWrap(true);
-		txtArea.setWrapStyleWord(true);
-		
-		lang.setVisible(true);
-	    buttonPane.add(lang);
-	    buttonPane.add(transButt);
-	    buttonPane.add(clearButt);
-	    buttonPane.add(quitButt);
+	    buttonPane.add(addButt);
+	    buttonPane.add(deleteButt);
+	    buttonPane.add(viewButt);
+	    buttonPane.add(searchButt);
+	    buttonPane.add(sortButt);
 	    mainContentPane.add(buttonPane);
 	    
 	    Border margin = new EmptyBorder(5,5,5,5);
-	    txtArea.setBorder(new CompoundBorder(BorderFactory.createLineBorder(Color.black), margin));
-	    txtAreaTrans.setBorder(new CompoundBorder(BorderFactory.createLineBorder(Color.black), margin));
-	    txtArea.setCaretPosition(0);
-	    txtAreaTrans.setCaretPosition(0);
+	    outputArea.setBorder(new CompoundBorder(BorderFactory.createLineBorder(Color.black), margin));
+	    userInputArea.setBorder(new CompoundBorder(BorderFactory.createLineBorder(Color.black), margin));
+	    userInputArea.setCaretPosition(0);
 		txtAreaPane.add(scrollBar);
-		txtAreaPane.add(scrollBarTrans);
+		txtAreaPane.add(userInputArea);
 		mainContentPane.add(txtAreaPane);
 		
 		file.add(newFileItem);
@@ -229,7 +225,6 @@ private int x, y, width, height;
 		
 		help.add(aboutHelpItem);
 		help.add(helpHelpItem);
-		help.add(warningsHelpItem);
 		
 		menuBar.add(file);
 		menuBar.add(edit);
@@ -241,7 +236,7 @@ private int x, y, width, height;
 	public void actionPerformed(ActionEvent e) {
 		String command = e.getActionCommand();
 		
-		if(command == "Quit") {
+		/*if(command == "Quit") {
 			int ans = JOptionPane.showConfirmDialog(this, "Do you want to save?", "Exit", JOptionPane.YES_NO_OPTION);
 			if(ans == JOptionPane.NO_OPTION) {
 				System.exit(0);
@@ -265,30 +260,23 @@ private int x, y, width, height;
 		
 		else if(command == "Open File") {
 			this.load();
-		}
+		}*/
 		
-		else if(command == "Copy") {
-			StringSelection selectedText = new StringSelection(txtArea.getSelectedText());
+		if(command == "Copy") {
+			StringSelection selectedText = new StringSelection(outputArea.getSelectedText());
 			Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
 			clipboard.setContents(selectedText, this);
 		}
 		
 		else if(command == "Cut") {
-			StringSelection selectedText = new StringSelection(txtArea.getSelectedText());
+			StringSelection selectedText = new StringSelection(outputArea.getSelectedText());
 			Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
 			clipboard.setContents(selectedText, this);
-			txtArea.replaceSelection(null);
+			outputArea.replaceSelection(null);
 		}
 		
 		else if(command == "Paste") {
-			txtArea.paste();
-		}
-		
-		else if(command == "Clear") {
-			txtArea.selectAll();
-			txtArea.replaceSelection(null);
-			txtAreaTrans.selectAll();
-			txtAreaTrans.replaceSelection(null);
+			userInputArea.paste();
 		}
 		
 		else if(command == "About") {
@@ -302,10 +290,6 @@ private int x, y, width, height;
 			String str = "Pretend it actually\n";
 			str += "translates";
 			JOptionPane.showMessageDialog(this, str, "About", JOptionPane.INFORMATION_MESSAGE);
-		}
-		
-		else if(command == "Translate") {
-			txtAreaTrans.setText(txtArea.getText());
 		}
 		
 		else if(command == "Help") {
@@ -363,7 +347,7 @@ private int x, y, width, height;
 		}
 		else if(ans == JOptionPane.YES_OPTION){
 			try {
-				this.save();
+				//this.save();
 				System.exit(0);
 			} catch (Exception e1) {
 				e1.printStackTrace();
