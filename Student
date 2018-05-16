@@ -1,7 +1,0 @@
-public class Student {
-	
-	int gradeLevel;
-	char gender, grade;
-	String nameF, nameL;
-	
-}
