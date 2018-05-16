@@ -33,4 +33,28 @@ public class Student {
 		return data;
 	}
 	
+	
+	public String getFirst() { 
+		return first;
+	}
+	
+	public String getLast() {
+		return last;
+	}
+	
+	public int getAge() {
+		return age;
+	}
+	
+	public int getGrade() {
+		return grade;
+	}
+	
+	public char getGender() {
+		return gender;
+	}
+	
+	public float getScore() {
+		return score;
+	}
 }
