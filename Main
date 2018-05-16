@@ -1,0 +1,32 @@
+import javax.swing.JFrame;
+
+/* 
+Name: Jack
+Class: Computer Science II
+Date: 5/16/18
+
+Purpose: To create a program that uses arrays/object arrays in a meaninful way
+ */
+
+public class Main {
+	Student[] classRoom = new Student[100];
+		
+	public static void main(String[] args) {
+		Window win = new Window("Sprague Word");
+		win.setLocationSize(100, 100, 1200, 800);
+		win.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		win.setVisible(true);
+			
+	}
+		
+	public String newStudent() {
+		String str = "Please enter this students information ~ \n";
+		str += "Grade Level: ";
+		return "";
+	}
+		
+		
+
+	}
+
+}
