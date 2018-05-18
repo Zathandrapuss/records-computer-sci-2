@@ -1,54 +1,59 @@
-
 public class ArrayStudent {
-	
-	//variables
-		private Student[] students;
-		private int count;
+		private static Student[] classRoom;
+		private static int count;
 		
-		//constructors
-		public ArrayStudent(){
-			
-			students = new Student[100];
+		public ArrayStudent() {
+			classRoom = new Student[100];
 			count = 0;
 		}
 		
-		//methods
-		
-		//add Students to our stack
-		public void addStudent (String name1, String name2, int age, char gen, int year, int period, float grade){
-			
-			if (count == students.length){
-				increaseSize();
-			}
-			
-			students[count] = new Student(name1, name2, age, gen, year, period, grade);
-			count++;
+		public static void addStudent(String firstName, String lastName, char sex, int years, int schoolGrade, float percent) {
+			classRoom[count] = new Student(firstName, lastName, years, sex, schoolGrade, percent);
 		}
 		
-		//Create a report of info
-		public String reportAll(){
+		public static void deleteStudent(int studentNumber) {
+			classRoom[studentNumber - 1] = new Student("", "", 0, ' ', 0, 0);
+			for(int i = (studentNumber - 1); i < count; i++) {
+				classRoom[i] = classRoom[i + 1]; 
+			}
+			classRoom[count] = new Student("", "", 0, ' ', 0, 0);
+			count--;
+		}
+		
+		public static int search(String search) {
+			int num = 101;
+			for(int i = 0; i < count; i++) {
+				if(classRoom[i].getFirst().contains(search)) {
+					num = i;
+				}
+			}
+			return num;
+		}
+		
+		public String reportAll() {
 			
 			String report = "*************************\n";
 			report += "Student List\n\n";
 			report += "Number of People: " + count + "\n";
 			report += "\t\tList: \n\n";
 			
-			for (int i = 0; i < students.length; i++){
-				report += students[i].studentReport() + "\n";
+			for (int i = 0; i < classRoom.length; i++){
+				report += classRoom[i].studentReport() + "\n";
 			}
 			
 			return report;
 		}
 		
-		private void increaseSize(){
+		@SuppressWarnings("unused")
+		private void increaseSize() {
 			
-			Student[] temp = new Student[students.length * 2];
+			Student[] temp = new Student[classRoom.length * 2];
 			
-			for (int i = 0; i > students.length; i++){
-				temp[i] = students [i];
+			for (int i = 0; i > classRoom.length; i++){
+				temp[i] = classRoom [i];
 			}
 			
-			students = temp;
+			classRoom = temp;
 			
 		}
 }
