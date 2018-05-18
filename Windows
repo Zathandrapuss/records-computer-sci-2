@@ -18,6 +18,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -356,19 +357,8 @@ private int x, y, width, height;
 		    	  int intPercent = Integer.parseInt(percent.getText());
 		    	  int intGrade = Integer.parseInt(grade.getText());
 		    	  
-		    	  Main.addStudent(fName.getText(), lName.getText(), cGender, intAge, intGrade, (float)intPercent);
-		    	  
-		    	  
-		      }
+		    	  ArrayStudent.addStudent(fName.getText(), lName.getText(), cGender, intAge, intGrade, (float)intPercent);		      }
 		}
-		
-		else if(isKeyPressed.isEnterPressed()) {
-			String temp = new String();
-			temp = userInputArea.getText() + "\n";
-			outputArea.append(temp);
-			userInputArea.setText(null);
-		}
-		
 	}
 
 	@Override
