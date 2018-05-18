@@ -24,6 +24,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -73,6 +74,8 @@ private int x, y, width, height;
 	private JButton addButt = new JButton("Add Student");
 	private JButton searchButt = new JButton("Search");
 	private JButton sortButt = new JButton("Sort");
+	
+	
 
 	public Window(String title) {
 		super(title);
@@ -193,6 +196,8 @@ private int x, y, width, height;
 		sortButt.addActionListener(this);
 		sortButt.setActionCommand("sort");
 		
+		
+		
 		addWindowListener(this);
         addWindowFocusListener(this);
         addWindowStateListener(this);
@@ -286,12 +291,6 @@ private int x, y, width, height;
 			JOptionPane.showMessageDialog(this, str, "About", JOptionPane.INFORMATION_MESSAGE);
 		}
 		
-		else if(command == "Warnings") {
-			String str = "Pretend it actually\n";
-			str += "translates";
-			JOptionPane.showMessageDialog(this, str, "About", JOptionPane.INFORMATION_MESSAGE);
-		}
-		
 		else if(command == "Help") {
 			String str = "To translate your text,\n";
 			str += "type what you want translated\n";
@@ -299,6 +298,75 @@ private int x, y, width, height;
 			str += "and click translate\n";
 			str += "and your translation will show up in the other box";
 			JOptionPane.showMessageDialog(this, str, "About", JOptionPane.INFORMATION_MESSAGE);
+		}
+		
+		else if(command == "add") {
+			JPanel fNamePanel = new JPanel();
+			JTextField fName = new JTextField(7);
+			JPanel lNamePanel = new JPanel();
+			JTextField lName = new JTextField(7);
+			JPanel gradePanel = new JPanel();
+			JTextField grade = new JTextField(7);
+			JPanel percentPanel = new JPanel();
+			JTextField percent = new JTextField(7);
+			JPanel agePanel = new JPanel();
+			JTextField age = new JTextField(7);
+			JPanel genderPanel = new JPanel();
+			JTextField gender = new JTextField(7);
+			
+			JPanel addS = new JPanel();
+			addS.setLayout(new BoxLayout(addS, BoxLayout.Y_AXIS));
+			
+			fNamePanel.add(new JLabel("First Name: "));
+			fNamePanel.add(fName);
+			addS.add(fNamePanel);
+			
+			lNamePanel.add(new JLabel("Last Name: "));
+			lNamePanel.add(lName);
+			addS.add(lNamePanel);
+			
+			gradePanel.add(new JLabel("Grade Level: "));
+			gradePanel.add(grade);
+			addS.add(gradePanel);
+			
+			percentPanel.add(new JLabel("Percentage: "));
+			percentPanel.add(percent);
+			addS.add(percentPanel);
+			
+			agePanel.add(new JLabel("Student Age: "));
+			agePanel.add(age);
+			addS.add(agePanel);
+			
+			genderPanel.add(new JLabel("Student Sex: "));
+			genderPanel.add(gender);
+			addS.add(genderPanel);
+			
+			int result = JOptionPane.showConfirmDialog(null, addS, 
+		               "Please Enter X and Y Values", JOptionPane.OK_CANCEL_OPTION);
+		      if (result == JOptionPane.OK_OPTION) {
+		    	  char cGender = 'X';
+		    	  if(gender.getText().toLowerCase() == "male" || gender.getText().toLowerCase() == "man" || gender.getText().toLowerCase() == "boy") {
+		    		  cGender = 'M';
+		    	  }
+		    	  else if(gender.getText().toLowerCase() == "female" || gender.getText().toLowerCase() == "woman" || gender.getText().toLowerCase() == "girl") {
+		    		  cGender = 'F';
+		    	  }
+		    	  
+		    	  int intAge = Integer.parseInt(age.getText());
+		    	  int intPercent = Integer.parseInt(percent.getText());
+		    	  int intGrade = Integer.parseInt(grade.getText());
+		    	  
+		    	  Main.addStudent(fName.getText(), lName.getText(), cGender, intAge, intGrade, (float)intPercent);
+		    	  
+		    	  
+		      }
+		}
+		
+		else if(isKeyPressed.isEnterPressed()) {
+			String temp = new String();
+			temp = userInputArea.getText() + "\n";
+			outputArea.append(temp);
+			userInputArea.setText(null);
 		}
 		
 	}
