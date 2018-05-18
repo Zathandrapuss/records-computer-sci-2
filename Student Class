@@ -57,4 +57,36 @@ public class Student {
 	public float getScore() {
 		return score;
 	}
+	
+	
+	
+	public String setFirst(String name1) { 
+		first = name1;
+		return first;
+	}
+	
+	public String setLast(String name2) {
+		last = name2;
+		return last;
+	}
+	
+	public int setAge(int num) {
+		age = num;
+		return age;
+	}
+	
+	public int setGrade(int school) {
+		grade = school;
+		return grade;
+	}
+	
+	public char setGender(char sex) {
+		gender = sex;
+		return gender;
+	}
+	
+	public float setScore(float percent) {
+		score = percent;
+		return score;
+	}
 }
