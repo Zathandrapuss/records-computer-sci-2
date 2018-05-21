@@ -60,12 +60,14 @@ private int x, y, width, height;
 	private JMenuItem aboutHelpItem = new JMenuItem("About");
 	private JMenuItem helpHelpItem = new JMenuItem("Help");
 	
+	String colnames[] = {"First", "Last", "Age", "Gender", "Grade", "Score"};
+	private DefaultTableModel dtm = new DefaultTableModel(null, colnames);
+	private JTable outputArea = new JTable(dtm);
 	
 	private JPanel mainContentPane = new JPanel();
 	private JPanel buttonPane = new JPanel();
 	private JPanel txtAreaPane = new JPanel();
 	
-	private JTextArea outputArea = new JTextArea(40, 50);
 	private JScrollPane scrollBar = new JScrollPane(outputArea);
 	private JTextArea userInputArea = new JTextArea(1, 50);
 	
@@ -148,6 +150,17 @@ private int x, y, width, height;
 			dir.setText("");
 		}
 	}*/
+	
+	public void setOutputData(ArrayStudent array, Object[][] data){
+		
+		for (int i = 0; i < array.getStudentArray().length; i++){
+			
+			Object[][] temp = {{array.getStudentAt(i).getFirst()}};
+			data = temp;
+		}
+		outputArea = new JTable(data, colnames);
+		
+	}
 	
 	public void init() {
 		Container cp = this.getContentPane();
