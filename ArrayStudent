@@ -44,6 +44,14 @@ public class ArrayStudent {
 			return report;
 		}
 		
+		public Student getStudentAt(int input){
+			return students[input];
+		}
+		
+		public Student[] getStudentArray(){
+			return students;
+		}
+		
 		@SuppressWarnings("unused")
 		private void increaseSize() {
 			
