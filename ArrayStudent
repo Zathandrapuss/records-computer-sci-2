@@ -4,14 +4,18 @@ public class ArrayStudent {
 		
 		public ArrayStudent() {
 			classRoom = new Student[100];
-			count = 0;
+			classRoom[0] = new Student("Jane", "Doe", 18, 'F', 12, 58);
+			classRoom[1] = new Student("John", "Doe", 15, 'M', 9, 99);
+			classRoom[2] = new Student("Jack", "Heart", 16, 'M', 10, 89);
+			count = 3;
 		}
 		
-		public static void addStudent(String firstName, String lastName, char sex, int years, int schoolGrade, float percent) {
+		public void addStudent(String firstName, String lastName, char sex, int years, int schoolGrade, float percent) {
 			classRoom[count] = new Student(firstName, lastName, years, sex, schoolGrade, percent);
+			count++;
 		}
 		
-		public static void deleteStudent(int studentNumber) {
+		public void deleteStudent(int studentNumber) {
 			classRoom[studentNumber - 1] = new Student("", "", 0, ' ', 0, 0);
 			for(int i = (studentNumber - 1); i < count; i++) {
 				classRoom[i] = classRoom[i + 1]; 
@@ -20,7 +24,7 @@ public class ArrayStudent {
 			count--;
 		}
 		
-		public static int search(String search) {
+		public int search(String search) {
 			int num = 101;
 			for(int i = 0; i < count; i++) {
 				if(classRoom[i].getFirst().contains(search)) {
@@ -28,6 +32,10 @@ public class ArrayStudent {
 				}
 			}
 			return num;
+		}
+		
+		public Student getStudentAt(int input) {
+			return classRoom[input];
 		}
 		
 		public String reportAll() {
@@ -44,14 +52,6 @@ public class ArrayStudent {
 			return report;
 		}
 		
-		public Student getStudentAt(int input){
-			return students[input];
-		}
-		
-		public Student[] getStudentArray(){
-			return students;
-		}
-		
 		@SuppressWarnings("unused")
 		private void increaseSize() {
 			
@@ -63,5 +63,9 @@ public class ArrayStudent {
 			
 			classRoom = temp;
 			
+		}
+		
+		public Student[] getStudentArray() {
+			return classRoom;
 		}
 }
