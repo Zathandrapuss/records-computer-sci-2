@@ -18,6 +18,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -31,15 +32,20 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
 
 public class Window extends JFrame implements ActionListener, WindowListener, WindowFocusListener, WindowStateListener, ClipboardOwner{
 private int x, y, width, height;
 	
+
+	private static ArrayStudent arrayStudent = new ArrayStudent();
+
 	private JMenuBar menuBar = new JMenuBar();
 	
 	private JTextField filename = new JTextField(), dir = new JTextField();
@@ -60,23 +66,22 @@ private int x, y, width, height;
 	private JMenuItem aboutHelpItem = new JMenuItem("About");
 	private JMenuItem helpHelpItem = new JMenuItem("Help");
 	
-	String colnames[] = {"First", "Last", "Age", "Gender", "Grade", "Score"};
-	private DefaultTableModel dtm = new DefaultTableModel(null, colnames);
-	private JTable outputArea = new JTable(dtm);
 	
 	private JPanel mainContentPane = new JPanel();
 	private JPanel buttonPane = new JPanel();
 	private JPanel txtAreaPane = new JPanel();
 	
+	private static String colNames[] = {"First", "Last", "Age", "Gender", "Grade", "Score"};
+	private static DefaultTableModel dtm = new DefaultTableModel(null, colNames);
+	
+	private JTable outputArea = new JTable(dtm);
 	private JScrollPane scrollBar = new JScrollPane(outputArea);
 	private JTextArea userInputArea = new JTextArea(1, 50);
 	
-	private JButton viewButt = new JButton("View Class");
 	private JButton deleteButt = new JButton("Delete Student");
 	private JButton addButt = new JButton("Add Student");
 	private JButton searchButt = new JButton("Search");
 	private JButton sortButt = new JButton("Sort");
-	
 	
 
 	public Window(String title) {
@@ -151,17 +156,6 @@ private int x, y, width, height;
 		}
 	}*/
 	
-	public void setOutputData(ArrayStudent array, Object[][] data){
-		
-		for (int i = 0; i < array.getStudentArray().length; i++){
-			
-			Object[][] temp = {{array.getStudentAt(i).getFirst()}};
-			data = temp;
-		}
-		outputArea = new JTable(data, colnames);
-		
-	}
-	
 	public void init() {
 		Container cp = this.getContentPane();
 		
@@ -174,8 +168,6 @@ private int x, y, width, height;
 		mainContentPane.setLayout(new BoxLayout(mainContentPane, BoxLayout.Y_AXIS));
 		txtAreaPane.setLayout(new BoxLayout(txtAreaPane, BoxLayout.Y_AXIS));
 		buttonPane.setLayout(new FlowLayout(FlowLayout.LEFT));
-		
-		outputArea.setEditable(false);
 		
 		newFileItem.addActionListener(this);
 		newFileItem.setActionCommand("New File");
@@ -198,8 +190,6 @@ private int x, y, width, height;
 		helpHelpItem.addActionListener(this);
 		helpHelpItem.setActionCommand("Help");
 		
-		viewButt.addActionListener(this);
-		viewButt.setActionCommand("view");
 		addButt.addActionListener(this);
 		addButt.setActionCommand("add");
 		deleteButt.addActionListener(this);
@@ -217,7 +207,6 @@ private int x, y, width, height;
 		
 	    buttonPane.add(addButt);
 	    buttonPane.add(deleteButt);
-	    buttonPane.add(viewButt);
 	    buttonPane.add(searchButt);
 	    buttonPane.add(sortButt);
 	    mainContentPane.add(buttonPane);
@@ -251,6 +240,13 @@ private int x, y, width, height;
 		this.setJMenuBar(menuBar);
 	}
 	
+	public void setOutputData(ArrayStudent array) {
+		dtm.setRowCount(0);
+		for(int i = 0; i < array.getStudentArray().length; i++) {
+			dtm.addRow(array.getStudentAt(i).getStudentData());
+		}
+	}
+	
 	public void actionPerformed(ActionEvent e) {
 		String command = e.getActionCommand();
 		
@@ -278,9 +274,9 @@ private int x, y, width, height;
 		
 		else if(command == "Open File") {
 			this.load();
-		}*/
+		}
 		
-		if(command == "Copy") {
+		else if(command == "Copy") {
 			StringSelection selectedText = new StringSelection(outputArea.getSelectedText());
 			Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
 			clipboard.setContents(selectedText, this);
@@ -295,9 +291,9 @@ private int x, y, width, height;
 		
 		else if(command == "Paste") {
 			userInputArea.paste();
-		}
+		}*/
 		
-		else if(command == "About") {
+		if(command == "About") {
 			String str = "This program will help\n"; 
 			str += "you translate any phrase\n";
 			str += "into one of our many languages";
@@ -354,22 +350,25 @@ private int x, y, width, height;
 			genderPanel.add(gender);
 			addS.add(genderPanel);
 			
-			int result = JOptionPane.showConfirmDialog(null, addS, 
-		               "Please Enter X and Y Values", JOptionPane.OK_CANCEL_OPTION);
+			int result = JOptionPane.showConfirmDialog(null, addS, "Please Enter Student Info", JOptionPane.OK_CANCEL_OPTION);
 		      if (result == JOptionPane.OK_OPTION) {
 		    	  char cGender = 'X';
-		    	  if(gender.getText().toLowerCase() == "male" || gender.getText().toLowerCase() == "man" || gender.getText().toLowerCase() == "boy") {
+		    	  if(gender.getText().toLowerCase().equals("male") || gender.getText().toLowerCase().equals("man") || gender.getText().toLowerCase().equals("boy") || gender.getText().toLowerCase().equals("m")) {
 		    		  cGender = 'M';
 		    	  }
-		    	  else if(gender.getText().toLowerCase() == "female" || gender.getText().toLowerCase() == "woman" || gender.getText().toLowerCase() == "girl") {
+		    	  else if(gender.getText().toLowerCase() == "female" || gender.getText().toLowerCase() == "woman" || gender.getText().toLowerCase() == "girl" || gender.getText().toLowerCase() == "f") {
 		    		  cGender = 'F';
 		    	  }
 		    	  
+		    	  String strNameF = fName.getText();
+		    	  String strNameL = lName.getText();
 		    	  int intAge = Integer.parseInt(age.getText());
 		    	  int intPercent = Integer.parseInt(percent.getText());
 		    	  int intGrade = Integer.parseInt(grade.getText());
 		    	  
-		    	  ArrayStudent.addStudent(fName.getText(), lName.getText(), cGender, intAge, intGrade, (float)intPercent);		      }
+		    	  arrayStudent.addStudent(strNameF, strNameL, cGender, intAge, intGrade, (float)intPercent);
+		    	  this.setOutputData(arrayStudent);
+		      }
 		}
 	}
 
@@ -387,6 +386,7 @@ private int x, y, width, height;
 
 	@Override
 	public void windowActivated(WindowEvent e) {
+		this.setOutputData(arrayStudent);
 	}
 
 	@Override
