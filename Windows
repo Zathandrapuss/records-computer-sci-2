@@ -35,6 +35,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
@@ -44,7 +45,7 @@ public class Window extends JFrame implements ActionListener, WindowListener, Wi
 private int x, y, width, height;
 	
 
-	private static ArrayStudent arrayStudent = new ArrayStudent();
+	public static ArrayStudent arrayStudent = new ArrayStudent();
 
 	private JMenuBar menuBar = new JMenuBar();
 	
@@ -81,6 +82,8 @@ private int x, y, width, height;
 	private JButton deleteButt = new JButton("Delete Student");
 	private JButton addButt = new JButton("Add Student");
 	private JButton searchButt = new JButton("Search");
+	String[] choices = {"Default", "Age", "Gender", "Grade Level", "Score", "First Name", "Last Name"};
+	private final JComboBox<String> sortBy = new JComboBox<String>(choices);
 	private JButton sortButt = new JButton("Sort");
 	
 
@@ -197,7 +200,7 @@ private int x, y, width, height;
 		searchButt.addActionListener(this);
 		searchButt.setActionCommand("search");
 		sortButt.addActionListener(this);
-		sortButt.setActionCommand("sort");
+		sortButt.setActionCommand("Sort");
 		
 		
 		
@@ -208,6 +211,7 @@ private int x, y, width, height;
 	    buttonPane.add(addButt);
 	    buttonPane.add(deleteButt);
 	    buttonPane.add(searchButt);
+	    buttonPane.add(sortBy);
 	    buttonPane.add(sortButt);
 	    mainContentPane.add(buttonPane);
 	    
@@ -242,8 +246,15 @@ private int x, y, width, height;
 	
 	public void setOutputData(ArrayStudent array) {
 		dtm.setRowCount(0);
-		for(int i = 0; i < array.getStudentArray().length; i++) {
+		for(int i = 0; i < array.getCount(); i++) {
 			dtm.addRow(array.getStudentAt(i).getStudentData());
+		}
+	}
+	
+	public void setSortOutputData(Student[] array){
+		dtm.setRowCount(0);
+		for(int i = 0; i < array.length; i++) {
+			dtm.addRow(array[i].getStudentData());
 		}
 	}
 	
@@ -356,7 +367,7 @@ private int x, y, width, height;
 		    	  if(gender.getText().toLowerCase().equals("male") || gender.getText().toLowerCase().equals("man") || gender.getText().toLowerCase().equals("boy") || gender.getText().toLowerCase().equals("m")) {
 		    		  cGender = 'M';
 		    	  }
-		    	  else if(gender.getText().toLowerCase() == "female" || gender.getText().toLowerCase() == "woman" || gender.getText().toLowerCase() == "girl" || gender.getText().toLowerCase() == "f") {
+		    	  else if(gender.getText().toLowerCase().equals("female") || gender.getText().toLowerCase().equals("woman") || gender.getText().toLowerCase().equals("girl") || gender.getText().toLowerCase().equals("f")) {
 		    		  cGender = 'F';
 		    	  }
 		    	  
@@ -368,6 +379,63 @@ private int x, y, width, height;
 		    	  
 		    	  arrayStudent.addStudent(strNameF, strNameL, cGender, intAge, intGrade, (float)intPercent);
 		    	  this.setOutputData(arrayStudent);
+		      }
+		}
+		
+		else if(command == "Sort") {
+			String ans = sortBy.getSelectedItem().toString();
+			switch(ans) {
+				case "Default": setOutputData(arrayStudent);
+					break;
+					
+				case "Age": setSortOutputData(Sorting.sortAge());
+					break;
+				
+				case "Gender": setSortOutputData(Sorting.sortGen());
+					break;
+					
+				case "Grade Level": setSortOutputData(Sorting.sortGrade());
+					break;
+				
+				case "Score": setSortOutputData(Sorting.sortPercent());
+					break;
+					
+				case "First Name": setSortOutputData(Sorting.sortNameF());
+					break;
+					
+				case "Last Name": setSortOutputData(Sorting.sortNameL());
+					break;
+			}
+		}
+		
+		else if(command == "search") {
+			JPanel searchPanel = new JPanel();
+			JTextField search = new JTextField(7);
+			
+			JPanel addS = new JPanel();
+			addS.setLayout(new BoxLayout(addS, BoxLayout.Y_AXIS));
+			
+			setOutputData(arrayStudent);
+			
+			searchPanel.add(new JLabel("Search Student: "));
+			searchPanel.add(search);
+			addS.add(searchPanel);
+			
+			int result = JOptionPane.showConfirmDialog(null, addS, "Please Enter Student Info", JOptionPane.OK_CANCEL_OPTION);
+		      if (result == JOptionPane.OK_OPTION) {
+		    	  if(arrayStudent.search(search.getText()) == 101) {
+		    		  userInputArea.setText("Student not Found");
+		    	  }
+		    	  
+		    	  else {
+		    		  int person = arrayStudent.search(search.getText());
+		    		  
+		    		  outputArea.setRowSelectionAllowed(true);
+		    		  outputArea.setColumnSelectionAllowed(false);
+		    		  
+		    		  System.out.println(person);
+		    		  outputArea.setRowSelectionInterval(person, person);
+		    	  }
 		      }
 		}
 	}
@@ -411,7 +479,7 @@ private int x, y, width, height;
 
 	@Override
 	public void windowClosing(WindowEvent e) {
-		int ans = JOptionPane.showConfirmDialog(this, "Do you want to save?", "Exit", JOptionPane.YES_NO_OPTION);
+		int ans = JOptionPane.showConfirmDialog(this, "Are you sure you want to close?", "Exit", JOptionPane.YES_NO_OPTION);
 		if(ans == JOptionPane.NO_OPTION) {
 			System.exit(0);
 		}
