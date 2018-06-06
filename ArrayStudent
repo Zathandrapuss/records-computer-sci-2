@@ -1,6 +1,6 @@
 public class ArrayStudent {
-		private static Student[] classRoom;
-		private static int count;
+		public Student[] classRoom;
+		private int count;
 		
 		public ArrayStudent() {
 			classRoom = new Student[100];
@@ -67,5 +67,9 @@ public class ArrayStudent {
 		
 		public Student[] getStudentArray() {
 			return classRoom;
+		}
+		
+		public int getCount(){
+			return count;
 		}
 }
