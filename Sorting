@@ -1,0 +1,128 @@
+
+public class Sorting {
+	
+	public static ArrayStudent sortedArray = new ArrayStudent();
+	
+	private static void init() {
+		for(int i = 0; i < sortedArray.classRoom.length; i++) {
+			sortedArray.classRoom[i] = Window.arrayStudent.classRoom[i];
+		}
+	}
+
+	public static Student[] sortAge() {
+		init();
+		int min = 0;
+		Student dummy = new Student();
+		for(int index = 0; index < sortedArray.getCount() - 1; index++) {
+			min = index;
+			for(int scan = index + 1; scan < sortedArray.getCount(); scan++) {
+				if(sortedArray.getStudentAt(scan).getAge() < sortedArray.getStudentAt(min).getAge()) {
+					min = scan;
+				}
+			}
+			
+			dummy = sortedArray.getStudentAt(index);
+			sortedArray.classRoom[index] = sortedArray.getStudentAt(min);
+			sortedArray.classRoom[min] = dummy;
+		}
+		
+		
+		return sortedArray.classRoom;
+	}
+	
+	public static Student[] sortPercent() {
+		int min = 0;
+		Student dummy = new Student();
+		for(int index = 0; index < sortedArray.getCount() - 1; index++) {
+			min = index;
+			for(int scan = index + 1; scan < sortedArray.getCount(); scan++) {
+				if(sortedArray.getStudentAt(scan).getScore() > sortedArray.getStudentAt(min).getScore()) {
+					min = scan;
+				}
+			}
+			
+			dummy = sortedArray.getStudentAt(index);
+			sortedArray.classRoom[index] = sortedArray.getStudentAt(min);
+			sortedArray.classRoom[min] = dummy;
+		}
+		
+		return sortedArray.classRoom;
+	}
+	
+	public static Student[] sortGrade() {
+		int min = 0;
+		Student dummy = new Student();
+		for(int index = 0; index < sortedArray.getCount() - 1; index++) {
+			min = index;
+			for(int scan = index + 1; scan < sortedArray.getCount(); scan++) {
+				if(sortedArray.getStudentAt(scan).getGrade() < sortedArray.getStudentAt(min).getGrade()) {
+					min = scan;
+				}
+			}
+			
+			dummy = sortedArray.getStudentAt(index);
+			sortedArray.classRoom[index] = sortedArray.getStudentAt(min);
+			sortedArray.classRoom[min] = dummy;
+		}
+		
+		return sortedArray.classRoom;
+	}
+	
+	public static Student[] sortNameF() {
+		int min = 0;
+		Student dummy = new Student();
+		for(int index = 0; index < sortedArray.getCount() - 1; index++) {
+			min = index;
+			for(int scan = index + 1; scan < sortedArray.getCount(); scan++) {
+				if(sortedArray.getStudentAt(scan).getFirst().compareTo(sortedArray.getStudentAt(min).getFirst()) < 0) {
+					min = scan;
+				}
+			}
+			
+			dummy = sortedArray.getStudentAt(index);
+			sortedArray.classRoom[index] = sortedArray.getStudentAt(min);
+			sortedArray.classRoom[min] = dummy;
+		}
+		
+		return sortedArray.classRoom;
+	}
+	
+	public static Student[] sortNameL() {
+		int min = 0;
+		Student dummy = new Student();
+		for(int index = 0; index < sortedArray.getCount() - 1; index++) {
+			min = index;
+			for(int scan = index + 1; scan < sortedArray.getCount(); scan++) {
+				if(sortedArray.getStudentAt(scan).getLast().compareTo(sortedArray.getStudentAt(min).getLast()) < 0) {
+					min = scan;
+				}
+			}
+			
+			dummy = sortedArray.getStudentAt(index);
+			sortedArray.classRoom[index] = sortedArray.getStudentAt(min);
+			sortedArray.classRoom[min] = dummy;
+		}
+		
+		return sortedArray.classRoom;
+	}
+	
+	public static Student[] sortGen() {
+		int min = 0;
+		Student dummy = new Student();
+		for(int index = 0; index < sortedArray.getCount() - 1; index++) {
+			min = index;
+			for(int scan = index + 1; scan < sortedArray.getCount(); scan++) {
+				if(sortedArray.getStudentAt(scan).getGender() == 'F' && sortedArray.getStudentAt(min).getGender() != 'F') {
+					min = scan;
+				}
+			}
+			
+			dummy = sortedArray.getStudentAt(index);
+			sortedArray.classRoom[index] = sortedArray.getStudentAt(min);
+			sortedArray.classRoom[min] = dummy;
+		}
+		
+		return sortedArray.classRoom;
+	}
+	
+}
